@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 public class HttpRequest {
 
-    public static Response get(String endpoint, QueryParams queryParams, BasicAuth basicAuth) {
+    public static github.tools.client.Response get(String endpoint, github.tools.client.QueryParams queryParams, github.tools.client.BasicAuth basicAuth) {
         try {
             String queryString = "";
             if (queryParams != null) {
@@ -36,16 +36,16 @@ public class HttpRequest {
             int statusCode = conn.getResponseCode();
             if (!isStatusCodeSuccessful(statusCode)) {
                 String errorMessage = extractErrorOutput(conn);
-                throw new RequestFailedException("GET Request to " + endpoint + " failed: " + errorMessage, statusCode);
+                throw new github.tools.client.RequestFailedException("GET Request to " + endpoint + " failed: " + errorMessage, statusCode);
             }
-            return new Response(convertResponseToJsonObject(response), statusCode);
+            return new github.tools.client.Response(convertResponseToJsonObject(response), statusCode);
         }
         catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public static Response post(String endpoint, RequestParams params, BasicAuth basicAuth) {
+    public static github.tools.client.Response post(String endpoint, github.tools.client.RequestParams params, github.tools.client.BasicAuth basicAuth) {
         try {
             URL url = new URL(endpoint);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -72,16 +72,16 @@ public class HttpRequest {
             int statusCode = conn.getResponseCode();
             if (!isStatusCodeSuccessful(statusCode)) {
                 String errorMessage = extractErrorOutput(conn);
-                throw new RequestFailedException("POST Request to " + endpoint + " failed: " + errorMessage, statusCode);
+                throw new github.tools.client.RequestFailedException("POST Request to " + endpoint + " failed: " + errorMessage, statusCode);
             }
-            return new Response(convertResponseToJsonObject(response), statusCode);
+            return new github.tools.client.Response(convertResponseToJsonObject(response), statusCode);
         }
         catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public static Response put(String endpoint, RequestParams params, BasicAuth basicAuth) {
+    public static github.tools.client.Response put(String endpoint, github.tools.client.RequestParams params, github.tools.client.BasicAuth basicAuth) {
         try {
             URL url = new URL(endpoint);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -108,16 +108,16 @@ public class HttpRequest {
             int statusCode = conn.getResponseCode();
             if (!isStatusCodeSuccessful(statusCode)) {
                 String errorMessage = extractErrorOutput(conn);
-                throw new RequestFailedException("PUT Request to " + endpoint + " failed: " + errorMessage, statusCode);
+                throw new github.tools.client.RequestFailedException("PUT Request to " + endpoint + " failed: " + errorMessage, statusCode);
             }
-            return new Response(convertResponseToJsonObject(response), statusCode);
+            return new github.tools.client.Response(convertResponseToJsonObject(response), statusCode);
         }
         catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public static Response patch(String endpoint, RequestParams params, BasicAuth basicAuth) {
+    public static github.tools.client.Response patch(String endpoint, github.tools.client.RequestParams params, github.tools.client.BasicAuth basicAuth) {
         try {
             URL url = new URL(endpoint);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -145,16 +145,16 @@ public class HttpRequest {
             int statusCode = conn.getResponseCode();
             if (!isStatusCodeSuccessful(statusCode)) {
                 String errorMessage = extractErrorOutput(conn);
-                throw new RequestFailedException("PATCH Request to " + endpoint + " failed: " + errorMessage, statusCode);
+                throw new github.tools.client.RequestFailedException("PATCH Request to " + endpoint + " failed: " + errorMessage, statusCode);
             }
-            return new Response(convertResponseToJsonObject(response), statusCode);
+            return new github.tools.client.Response(convertResponseToJsonObject(response), statusCode);
         }
         catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public static Response delete(String endpoint, RequestParams params, BasicAuth basicAuth) {
+    public static github.tools.client.Response delete(String endpoint, github.tools.client.RequestParams params, github.tools.client.BasicAuth basicAuth) {
         try {
             URL url = new URL(endpoint);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -180,9 +180,9 @@ public class HttpRequest {
             int statusCode = conn.getResponseCode();
             if (!isStatusCodeSuccessful(statusCode)) {
                 String errorMessage = extractErrorOutput(conn);
-                throw new RequestFailedException("DELETE Request to " + endpoint + " failed: " + errorMessage, statusCode);
+                throw new github.tools.client.RequestFailedException("DELETE Request to " + endpoint + " failed: " + errorMessage, statusCode);
             }
-            return new Response(convertResponseToJsonObject(response), statusCode);
+            return new github.tools.client.Response(convertResponseToJsonObject(response), statusCode);
         }
         catch (IOException e) {
             throw new RuntimeException(e.getMessage());

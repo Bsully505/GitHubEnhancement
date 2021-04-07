@@ -21,10 +21,10 @@ public class Main {
         frame.setSize(300,300);//setting width and height of the frame
         frame.setLayout(new FlowLayout());
         JButton DarkLightBool = new JButton("TOGGLE DARKMODE");
-        JButton LightButton = new JButton("lightMode");
+        JButton add  = new JButton("ADD");
         DarkLightBool.setBounds(25,25,100,25);
         frame.add(DarkLightBool);
-        frame.add(LightButton);
+        frame.add(add);
         ImageIcon IMG = new ImageIcon("25231.png");
         frame.setIconImage(IMG.getImage());
         //frame.add(DarkLightBool);
