@@ -25,7 +25,7 @@ public class Main {
         DarkLightBool.setBounds(25,25,100,25);
         frame.add(DarkLightBool);
         frame.add(add);
-        ImageIcon IMG = new ImageIcon("25231.png");
+        ImageIcon IMG = new ImageIcon("GitHubLogo.png");
         frame.setIconImage(IMG.getImage());
         //frame.add(DarkLightBool);
         try {
