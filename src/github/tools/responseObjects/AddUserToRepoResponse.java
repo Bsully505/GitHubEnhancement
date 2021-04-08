@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class AddUserToRepoResponse extends github.tools.responseObjects.ApiObjectResponse {
+public class AddUserToRepoResponse extends ApiObjectResponse {
     private String repoName;
     private String repoFullName;
     private String repoOwner;

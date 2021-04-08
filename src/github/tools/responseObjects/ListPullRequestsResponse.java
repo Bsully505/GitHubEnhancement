@@ -32,7 +32,7 @@ public class ListPullRequestsResponse extends ApiArrayResponse {
             String ownerName = userResponse.get("login").getAsString();
             String ownerUrl = userResponse.get("html_url").getAsString();
             String body = pullRequestResponse.get("body").getAsString();
-            ArrayList<Label> labels = new ArrayList<Label>();
+            ArrayList<github.tools.responseObjects.Label> labels = new ArrayList<github.tools.responseObjects.Label>();
             JsonArray labelsResponse = pullRequestResponse.get("labels").getAsJsonArray();
             for (int j = 0; j < labelsResponse.size(); j++) {
                 String labelName = labelsResponse.get(j).getAsJsonObject().get("name").getAsString();

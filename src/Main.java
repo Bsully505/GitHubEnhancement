@@ -16,16 +16,46 @@ public class Main {
     public boolean DarkLight; //dark = true light = false;
     public Main(){//ini
         DarkLight = false;
+        //initialize the JFrame
+        ImageIcon IMG = new ImageIcon("GitHubLogo.png");
+
         JFrame frame = new JFrame("GitHub Edhancements");
+
+        JPanel loginPan = new JPanel(null);
+        loginPan.setBounds(200,200,200,100);
+
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setSize(300,300);//setting width and height of the frame
-        frame.setLayout(new FlowLayout());
+
+        frame.setLayout(null);
+        frame.setSize(500,500);//setting width and height of the frame
+
+
+
+        JTextField UserNameLogin = new JTextField();
+        JTextField PasswordLogin = new JTextField();
+
+        loginPan.setBackground(Color.green);
+        loginPan.setSize(200,100);
+
+
+
+
+
         JButton DarkLightBool = new JButton("TOGGLE DARKMODE");
-        JButton add  = new JButton("ADD");
         DarkLightBool.setBounds(25,25,100,25);
+
+        JButton add  = new JButton("ADD");
+
+
+
+
+
         frame.add(DarkLightBool);
         frame.add(add);
-        ImageIcon IMG = new ImageIcon("GitHubLogo.png");
+
+        frame.add(loginPan);
+
+
         frame.setIconImage(IMG.getImage());
         //frame.add(DarkLightBool);
         try {

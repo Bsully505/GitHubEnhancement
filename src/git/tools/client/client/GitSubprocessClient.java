@@ -1,4 +1,4 @@
-package git.tools.client;
+package git.tools.client.client;
 
 public class GitSubprocessClient {
 
