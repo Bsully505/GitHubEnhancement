@@ -14,35 +14,40 @@ import java.awt.event.ActionListener;
 
 public class Main {
     public boolean DarkLight; //dark = true light = false;
-    public Main(){//ini
+    public Main(){
+        int FrameX =500 ;
+        int FrameY = 500;
         DarkLight = false;
         //initialize the JFrame
         ImageIcon IMG = new ImageIcon("GitHubLogo.png");
 
         JFrame frame = new JFrame("GitHub Edhancements");
 
-        JPanel loginPan = new JPanel(null);
-        loginPan.setBounds(200,200,200,100);
 
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
         frame.setLayout(null);
-        frame.setSize(500,500);//setting width and height of the frame
+        frame.setSize(FrameX,FrameY);//setting width and height of the frame
 
+        JPanel loginPan = new JPanel(null);
+        loginPan.setBounds(FrameX/2-100,FrameY/2-50,200,100);
 
 
         JTextField UserNameLogin = new JTextField();
         JTextField PasswordLogin = new JTextField();
+        JButton Login = new JButton("Login");
+        UserNameLogin.setBounds(15,20, 75,20);
 
-        loginPan.setBackground(Color.green);
+        loginPan.setBackground(Color.lightGray);
         loginPan.setSize(200,100);
+        loginPan.add(UserNameLogin);
 
 
 
 
 
         JButton DarkLightBool = new JButton("TOGGLE DARKMODE");
-        DarkLightBool.setBounds(25,25,100,25);
+        DarkLightBool.setBounds(25,25,200,25);
 
         JButton add  = new JButton("ADD");
 
@@ -57,7 +62,7 @@ public class Main {
 
 
         frame.setIconImage(IMG.getImage());
-        //frame.add(DarkLightBool);
+
         try {
             // Set System L&F
             UIManager.setLookAndFeel(
