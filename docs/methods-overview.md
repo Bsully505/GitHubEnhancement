@@ -82,7 +82,7 @@ System.out.println(login); // will print out "CSC109"
 
 ## Methods
 
-Note: "authenticated user" means the GitHub user whose username/token is being supplied to the client object instance.
+Note: "authenticated user" means the GitHub user whose username/token is being supplied to the git.tools.client.client object instance.
 
 ### Create Repo
 

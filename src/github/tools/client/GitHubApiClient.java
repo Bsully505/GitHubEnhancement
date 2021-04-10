@@ -3,7 +3,6 @@ package github.tools.client;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import github.tools.responseObjects.*;
-import github.tools.responseObjects.responseObjects.*;
 
 public class GitHubApiClient {
     private final String baseUrl = "https://api.github.com";
