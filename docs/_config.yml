@@ -1,4 +1,4 @@
-name: client.GitHubApiClient
+name: git.tools.client.client.GitHubApiClient
 title: null
 plugins:
   - jemoji

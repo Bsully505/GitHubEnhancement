@@ -8,6 +8,7 @@
  */
 
 import github.tools.client.BasicAuth;
+import github.tools.client.GitHubApiClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class Main {
     public boolean DarkLight; //dark = true light = false;
-    public static BasicAuth auth;
+    public static GitHubApiClient Client;
     public Main(){
 
         int FrameX =500 ;
@@ -156,9 +157,11 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 String UserNme = UserName.getText();
                 String Passwrd = Password.getText();
-                BasicAuth auth = new BasicAuth(UserNme, Passwrd);
-                Main.setAuth(auth);
-                System.out.println(auth.toAuthHeader());
+                GitHubApiClient Client = new GitHubApiClient(UserNme, Passwrd);
+                Client.setUser(UserNme);
+                setAuth(Client);
+
+
             }
         });
 
@@ -173,8 +176,8 @@ public class Main {
 
 
     }
-    public static void setAuth(BasicAuth auth){
-        Main.auth = auth;
+    public static void setAuth(GitHubApiClient auth){
+        Main.Client = auth;
     }
 
 
