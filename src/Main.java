@@ -1,4 +1,4 @@
-//mport com.sun.webkit.ThemeClient;
+
 /**
  * ideas
  *
@@ -7,7 +7,6 @@
  * 3) ADD NEW buttone for add commit delete
  */
 
-import github.tools.client.BasicAuth;
 import github.tools.client.GitHubApiClient;
 
 import javax.swing.*;
@@ -36,13 +35,12 @@ public class Main {
         File.add(EnterLogin);
         File.add(DarkMode);
         frame.setJMenuBar(bar);
-        EnterLogin.addActionListener(new ActionListener(){
+        EnterLogin.addActionListener(e -> {
+            LoginPopUp();
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LoginPopUp();
-            }
         });
+
+
         DarkMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,37 +95,8 @@ public class Main {
 
         frame.setIconImage(IMG.getImage());
 
-        try {
-            // Set System L&F
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException ee) {
-            // handle exception
-        }
-        DarkLightBool.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(DarkLight == false){
-                    DarkLight = true;
-                    System.out.println("set to true/ dark theme");
-                    //set theme to dark
-                    frame.setForeground(Color.BLACK);
-                    frame.update(frame.getGraphics());
-                    frame.getContentPane().setBackground(Color.BLACK);
-                    SwingUtilities.updateComponentTreeUI(frame);
-                    //frame.pack();
 
 
-                }
-                else if (DarkLight == true){
-                    DarkLight = false;
-                    frame.getContentPane().setBackground(Color.WHITE);
-
-                    System.out.println("set to false/ light theme");
-                }
-            }
-        });
         frame.setVisible(true);
     }
     public static void LoginPopUp(){
@@ -135,7 +104,7 @@ public class Main {
         ImageIcon githubicon = new ImageIcon("GitHubLogo.png");
         loginFrame.setSize(400,200);
         loginFrame.setLayout(null);
-        loginFrame.setDefaultCloseOperation(3);
+        //loginFrame.setDefaultCloseOperation(3);
         JLabel Image = new JLabel(githubicon);
         Image.setBounds(0,0,100,100);
         JLabel UsrNameLabel = new JLabel("UserName");
@@ -151,8 +120,6 @@ public class Main {
         Password.setBounds(78,96,100,20);
 
         Login.addActionListener(new ActionListener() {
-            public BasicAuth auth;
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 String UserNme = UserName.getText();
@@ -160,6 +127,7 @@ public class Main {
                 GitHubApiClient Client = new GitHubApiClient(UserNme, Passwrd);
                 Client.setUser(UserNme);
                 setAuth(Client);
+                //need to make sure that the user is logged in and is the correct user
 
 
             }
