@@ -8,6 +8,8 @@
  */
 
 import github.tools.client.GitHubApiClient;
+import github.tools.client.QueryParams;
+import github.tools.responseObjects.ListReposResponse;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +19,8 @@ import java.awt.event.ActionListener;
 public class Main {
     public boolean DarkLight; //dark = true light = false;
     public static GitHubApiClient Client;
+    public static ListReposResponse rep;
+    public static List Repos;
     public Main(){
 
         int FrameX =500 ;
@@ -74,24 +78,10 @@ public class Main {
 
 
 
+        //geting the file from
 
 
-
-        JButton DarkLightBool = new JButton("TOGGLE DARKMODE");
-        DarkLightBool.setBounds(25,25,200,25);
-
-        JButton add  = new JButton("ADD");
-
-
-
-
-
-
-        frame.add(DarkLightBool);
-        frame.add(add);
-
-
-
+        //full_name
 
         frame.setIconImage(IMG.getImage());
 
@@ -99,7 +89,7 @@ public class Main {
 
         frame.setVisible(true);
     }
-    public static void LoginPopUp(){
+    public void LoginPopUp(){
         JFrame loginFrame = new JFrame("Login");
         ImageIcon githubicon = new ImageIcon("GitHubLogo.png");
         loginFrame.setSize(400,200);
@@ -108,7 +98,7 @@ public class Main {
         JLabel Image = new JLabel(githubicon);
         Image.setBounds(0,0,100,100);
         JLabel UsrNameLabel = new JLabel("UserName");
-        JLabel PwrdLabel = new JLabel("Password");
+        JLabel PwrdLabel = new JLabel("Auth Token");
         JTextField UserName = new JTextField();
         JTextField Password = new JTextField();
         JButton Login = new JButton("Login");
@@ -127,8 +117,22 @@ public class Main {
                 GitHubApiClient Client = new GitHubApiClient(UserNme, Passwrd);
                 Client.setUser(UserNme);
                 setAuth(Client);
+                QueryParams qry = new QueryParams();
+                qry.addParam("type","owner");
+                ListReposResponse rep = Client.listRepos(new QueryParams());
+                github.tools.responseObjects.GetRepoInfoResponse res =  Client.getRepoInfo(UserNme,"GitHubEnhancement");
+                System.out.println(res.getRepoFullName());
+                setReposResponse(rep);
+                List Repos = new List();
+                for(int i = 0 ; i < rep.getJson().size();i++) {
+                    Repos.add( rep.getJson().get(i).getAsJsonObject().get("full_name").getAsString());
+                }
+                for(String i : Repos.getItems()){
+                    System.out.println(i);
+                }
+                setRepo(Repos);
                 //need to make sure that the user is logged in and is the correct user
-
+                loginFrame.dispose();
 
             }
         });
@@ -146,6 +150,12 @@ public class Main {
     }
     public static void setAuth(GitHubApiClient auth){
         Main.Client = auth;
+    }
+    public void setReposResponse(ListReposResponse rep){
+        this.rep = rep;
+    }
+    public void setRepo(List repo){
+        this.Repos = repo;
     }
 
 
