@@ -9,6 +9,7 @@
 
 import github.tools.client.GitHubApiClient;
 import github.tools.client.QueryParams;
+import github.tools.responseObjects.ListBranchesInRepoResponse;
 import github.tools.responseObjects.ListReposResponse;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class Main {
     public static GitHubApiClient Client;
     public static ListReposResponse rep;
     public static List Repos;
+    public static JComboBox<String> RepoChoice;
     public Main(){
 
         int FrameX =500 ;
@@ -43,6 +45,26 @@ public class Main {
             LoginPopUp();
 
         });
+         RepoChoice = new JComboBox<String>();
+        RepoChoice.setBounds(40,200,200,40);
+        RepoChoice.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String CurRepo = ((String) RepoChoice.getSelectedItem());
+                //now i have to get all of the classes for the repo
+                if(CurRepo.split("/").length>1) {
+                    System.out.println(CurRepo.split("/").length);
+                    QueryParams qry = new QueryParams();
+                    qry.addParam("type","owner");
+                    ListBranchesInRepoResponse res=  Client.listBranchesInRepo(CurRepo.split("/")[0], CurRepo.split("/")[1], qry);
+                    res.printJson();
+            }
+        }});
+
+
+        frame.add(RepoChoice);
+
 
 
         DarkMode.addActionListener(new ActionListener() {
@@ -131,6 +153,7 @@ public class Main {
                     System.out.println(i);
                 }
                 setRepo(Repos);
+                updateRepo();
                 //need to make sure that the user is logged in and is the correct user
                 loginFrame.dispose();
 
@@ -156,6 +179,11 @@ public class Main {
     }
     public void setRepo(List repo){
         this.Repos = repo;
+    }
+    public void updateRepo(){
+        RepoChoice.removeAllItems();
+        for(String i: Repos.getItems())
+        RepoChoice.addItem(i);
     }
 
 
