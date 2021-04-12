@@ -2,7 +2,7 @@
 /**
  * ideas
  *
- * 1) include a log in feature that will alloo a user to login onto their account
+ * 1) error test by what happends if a user enters a wrong userName and or Token
  * 2) create a new page that allows them to grab a file from git
  * 3) ADD NEW buttone for add commit delete
  */
@@ -11,23 +11,38 @@ import github.tools.client.GitHubApiClient;
 import github.tools.client.QueryParams;
 import github.tools.responseObjects.ListBranchesInRepoResponse;
 import github.tools.responseObjects.ListReposResponse;
+import github.tools.responseObjects.RepoFileContent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Main {
     public boolean DarkLight; //dark = true light = false;
+    public boolean LoggedIn;
     public static GitHubApiClient Client;
     public static ListReposResponse rep;
     public static List Repos;
+    public static List Branches;
+    public static List Classes;
     public static JComboBox<String> RepoChoice;
+    public static JComboBox<String> BranchChoice;
+    public static JComboBox<String> ClassChoice;
+    public static JButton OpenFile;
+    public static String Owner;
+    public static String RepoN;
     public Main(){
 
-        int FrameX =500 ;
-        int FrameY = 500;
+        OpenFile = new JButton("Open Selected File");
+        OpenFile.setBounds(220,400, 200,50);
+        LoggedIn = false;
+
+        int FrameX =500, FrameY =500;
         DarkLight = false;
+        Branches = new List();
+        Classes = new List();
         //initialize the JFrame
         ImageIcon IMG = new ImageIcon("GitHubLogo.png");
 
@@ -57,13 +72,67 @@ public class Main {
                     System.out.println(CurRepo.split("/").length);
                     QueryParams qry = new QueryParams();
                     qry.addParam("type","owner");
+                    Owner = CurRepo.split("/")[0];
+                    RepoN = CurRepo.split("/")[1];
                     ListBranchesInRepoResponse res=  Client.listBranchesInRepo(CurRepo.split("/")[0], CurRepo.split("/")[1], qry);
-                    res.printJson();
+
+                    Branches.removeAll();
+                    for(int i = 0 ; i < res.getJson().size();i++) {
+                        Branches.add( res.getJson().get(i).getAsJsonObject().get("name").getAsString());
+                    }
+
+
+
+
+                    updateBranch();
+
             }
         }});
 
+        BranchChoice = new JComboBox<String>();
+        BranchChoice.setBounds(260,200,200,40);
+        BranchChoice.addActionListener(new ActionListener(){
 
+            @Override
+            public void actionPerformed(ActionEvent e) {// this is going to be the call to allow me to get the classes in that branch
+                ArrayList<RepoFileContent> classes = new ArrayList<>();
+                if(BranchChoice.getSelectedItem()!= null){
+                    classes = Client.getAllFilesInRepo(Owner,RepoN,(String)BranchChoice.getSelectedItem());
+                    String[] classNames = new String[classes.size()];
+                    int counter = 0;
+                    for(RepoFileContent RFC :classes){
+                        classNames[counter++] = RFC.getFileName();
+                    }
+
+
+
+                    ClassChoice.removeAllItems();
+                    for(String FN: classNames){
+                        ClassChoice.addItem(FN);
+                    }
+
+                }
+
+
+            }});
+        ClassChoice = new JComboBox<String>();
+        ClassChoice.setBounds(300,300,200,50);
+        frame.add(ClassChoice);
+        frame.add(BranchChoice);
         frame.add(RepoChoice);
+        frame.add(OpenFile);
+        OpenFile.addActionListener(e-> {
+            if(LoggedIn == true) {
+                JFrame ED = new JFrame("Edit");
+
+                JEditorPane Editer = new JEditorPane();
+                Editer.setSize(400, 500);
+                ED.setSize(600, 700);
+                ED.add(Editer);
+                ED.setLayout(null);
+                ED.setVisible(true);
+            }
+        });
 
 
 
@@ -88,17 +157,6 @@ public class Main {
 
         frame.setLayout(null);
         frame.setSize(FrameX,FrameY);//setting width and height of the frame
-
-        JPanel loginPan = new JPanel(null);
-        loginPan.setBounds(FrameX/2-100,FrameY/2-50,200,100);
-
-
-        JTextField UserNameLogin = new JTextField();
-        JTextField PasswordLogin = new JTextField();
-        JButton Login = new JButton("Login");
-        UserNameLogin.setBounds(15,20, 75,20);
-
-
 
         //geting the file from
 
@@ -149,10 +207,9 @@ public class Main {
                 for(int i = 0 ; i < rep.getJson().size();i++) {
                     Repos.add( rep.getJson().get(i).getAsJsonObject().get("full_name").getAsString());
                 }
-                for(String i : Repos.getItems()){
-                    System.out.println(i);
-                }
+
                 setRepo(Repos);
+                LoggedIn = true;
                 updateRepo();
                 //need to make sure that the user is logged in and is the correct user
                 loginFrame.dispose();
@@ -180,11 +237,22 @@ public class Main {
     public void setRepo(List repo){
         this.Repos = repo;
     }
+    public void setbranches(List Branch){
+        this.Branches = Branch;
+    }
     public void updateRepo(){
         RepoChoice.removeAllItems();
-        for(String i: Repos.getItems())
-        RepoChoice.addItem(i);
+        for(String i: Repos.getItems()) {
+            RepoChoice.addItem(i);
+        }
     }
+    public void updateBranch(){
+        BranchChoice.removeAllItems();
+        for(String i: Branches.getItems()) {
+            BranchChoice.addItem(i);
+        }
+    }
+
 
 
 
