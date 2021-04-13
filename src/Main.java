@@ -1,10 +1,9 @@
 
 /**
- * ideas
+ * ideas / todo list
  *
  * 1) error test by what happends if a user enters a wrong userName and or Token
- * 2) ADD NEW buttone for add commit delete
- * 3) add scrolability for the text file panal
+ * 2) add scrolability for the text file panal
  */
 
 import github.tools.client.GitHubApiClient;
@@ -38,10 +37,10 @@ public class Main {
     public Main(){
 
         OpenFile = new JButton("Open Selected File");
-        OpenFile.setBounds(220,400, 200,50);
+        OpenFile.setBounds(220,200, 200,50);
         LoggedIn = false;
 
-        int FrameX =500, FrameY =500;
+        int FrameX =700, FrameY =400;
         DarkLight = false;
         Branches = new List();
         Classes = new List();
@@ -63,7 +62,7 @@ public class Main {
 
         });
          RepoChoice = new JComboBox<String>();
-        RepoChoice.setBounds(40,200,200,40);
+        RepoChoice.setBounds(10,20,200,40);
         RepoChoice.addActionListener(new ActionListener(){
 
             @Override
@@ -92,7 +91,7 @@ public class Main {
         }});
 
         BranchChoice = new JComboBox<String>();
-        BranchChoice.setBounds(260,200,200,40);
+        BranchChoice.setBounds(RepoChoice.getX()+RepoChoice.getWidth()+10,RepoChoice.getY(),200,40);
         BranchChoice.addActionListener(new ActionListener(){
 
             @Override
@@ -120,7 +119,7 @@ public class Main {
 
             }});
         ClassChoice = new JComboBox<String>();
-        ClassChoice.setBounds(300,300,200,50);
+        ClassChoice.setBounds(BranchChoice.getX()+BranchChoice.getWidth()+20,RepoChoice.getY(),200,40);
         frame.add(ClassChoice);
         frame.add(BranchChoice);
         frame.add(RepoChoice);
@@ -148,7 +147,8 @@ public class Main {
                 SaveAndSend.addActionListener(b -> {
                     //System.out.println(Editer.getText());
                             UpdateFileResponse updateFile = Client.updateFile(Owner, RepoN, finalFilePath, Branch, Editer.getText(), "sent through GitHub's new enchanced GUI");
-                        //Client.updateFile(Owner,RepoN, finalFilePath,Branch,  Base64.getEncoder().withoutPadding().encodeToString(Editer.getText().getBytes()),"sent through GitHub's new enchanced GUI");
+                        ED.dispose();
+                            //Client.updateFile(Owner,RepoN, finalFilePath,Branch,  Base64.getEncoder().withoutPadding().encodeToString(Editer.getText().getBytes()),"sent through GitHub's new enchanced GUI");
                         }
                         );
                 menBar.add(Send);
