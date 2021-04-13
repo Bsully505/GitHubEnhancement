@@ -9,10 +9,7 @@
 
 import github.tools.client.GitHubApiClient;
 import github.tools.client.QueryParams;
-import github.tools.responseObjects.GetRepoFileResponse;
-import github.tools.responseObjects.ListBranchesInRepoResponse;
-import github.tools.responseObjects.ListReposResponse;
-import github.tools.responseObjects.RepoFileContent;
+import github.tools.responseObjects.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -149,7 +146,9 @@ public class Main {
                 JMenuItem SaveAndSend = new JMenuItem("Upload");
                 String finalFilePath = FilePath;
                 SaveAndSend.addActionListener(b -> {
-                        Client.updateFile(Owner,RepoN, finalFilePath,Branch,Editer.getText(),"sent through GitHub's new enchanced GUI");
+                    //System.out.println(Editer.getText());
+                            UpdateFileResponse updateFile = Client.updateFile(Owner, RepoN, finalFilePath, Branch, Editer.getText(), "sent through GitHub's new enchanced GUI");
+                        //Client.updateFile(Owner,RepoN, finalFilePath,Branch,  Base64.getEncoder().withoutPadding().encodeToString(Editer.getText().getBytes()),"sent through GitHub's new enchanced GUI");
                         }
                         );
                 menBar.add(Send);
