@@ -1,4 +1,6 @@
-name: git.tools.client.client.GitHubApiClient
-title: null
+name: GitHub-Enhancement
+title: "GitHub Enhancement Website"
 plugins:
   - jemoji
+
+theme: jekyll-theme-cayman
