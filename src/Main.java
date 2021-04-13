@@ -3,7 +3,6 @@
  *Author Bryan Sullivan
  * ideas / todo list
  * fix error for having a path that has a space in it
- * Implement the bring up of th website when clicked in the panal
  */
 
 import github.tools.client.GitHubApiClient;
@@ -46,6 +45,9 @@ public class Main {
     public static Color DarkColor = Color.DARK_GRAY;
     public static Color Orig;
     public static JTextField Instruc;
+    public static JFrame loginFrame;
+    public static JLabel UsrNameLabel;
+    public static JLabel PwrdLabel ;
     public Main() throws URISyntaxException {
         int FrameX =700, FrameY =400;
 
@@ -194,6 +196,11 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 if(DarkLight == false){
                     DarkLight = true;
+                    if(loginFrame != null){
+                        loginFrame.getContentPane().setBackground(DarkColor);
+                        UsrNameLabel.setForeground(Orig);
+                        PwrdLabel.setForeground(Orig);
+                    }
                     frame.getContentPane().setBackground(DarkColor);
                     RepoInstrc.setBackground(DarkColor);
                     RepoInstrc.setForeground(Orig);
@@ -209,6 +216,11 @@ public class Main {
                 }
                 else if (DarkLight == true){
                     DarkLight = false;
+                    if(loginFrame != null){
+                        loginFrame.getContentPane().setBackground(Orig);
+                        UsrNameLabel.setForeground(DarkColor);
+                        PwrdLabel.setForeground(DarkColor);
+                    }
                     frame.getContentPane().setBackground(Orig);
                     RepoInstrc.setBackground(Orig);
                     RepoInstrc.setForeground(DarkColor);
@@ -224,12 +236,12 @@ public class Main {
         });
          URI target = new URI("https://bsully505.github.io/GitHubEnhancement/");
 
-         Instruc = new JTextField("For help or more information please visit \n" + target.toString());
+         Instruc = new JTextField("For help or more information please visit \n" + target.toString(),2);
+
         Instruc.setEditable(false);
         Instruc.setBorder( new MatteBorder(0,0,1,0,new Color(0,0,0,0)));
         Instruc.setBackground(Orig);
-        //JLabel Instruc = new JLabel("For help or more information please visit " );
-        Instruc.setBounds((FrameX/2)-250, FrameY-(FrameY/4),500, 100);
+        Instruc.setBounds((FrameX/2)-300, FrameY-(FrameY/4)-75,600, 100);
 
         Instruc.addMouseListener(new MouseListener() {
                 public boolean in = false;
@@ -286,7 +298,7 @@ public class Main {
     }
     public void LoginPopUp(){
 
-        JFrame loginFrame = new JFrame("Login");
+         loginFrame = new JFrame("Login");
         ImageIcon githubicon = new ImageIcon("GitHubLogo.png");
         loginFrame.setSize(400,200);
         loginFrame.setLayout(null);
@@ -296,8 +308,8 @@ public class Main {
         }
         JLabel Image = new JLabel(githubicon);
         Image.setBounds(0,0,100,100);
-        JLabel UsrNameLabel = new JLabel("UserName");
-        JLabel PwrdLabel = new JLabel("Auth Token");
+         UsrNameLabel = new JLabel("UserName");
+         PwrdLabel = new JLabel("Auth Token");
         JTextField UserName = new JTextField();
         JTextField Password = new JTextField();
         JButton Login = new JButton("Login");
