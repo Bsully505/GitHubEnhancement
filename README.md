@@ -1,2 +1,3 @@
- This project is to help github by creating a GUI that will be able to help be a bridge between git and github
-authors: Bryan Sullivan, Christelle flores, Issac Steele 
+This is program makes GitHub easier by allowing users to take any files they want and edit them without having to use or make another repository or separate branches from the master.
+
+Creators: Isaac Steele, Christelle Flores, Bryan Sullivan
