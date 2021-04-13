@@ -3,12 +3,13 @@
  * ideas
  *
  * 1) error test by what happends if a user enters a wrong userName and or Token
- * 2) create a new page that allows them to grab a file from git
- * 3) ADD NEW buttone for add commit delete
+ * 2) ADD NEW buttone for add commit delete
+ * 3) add scrolability for the text file panal
  */
 
 import github.tools.client.GitHubApiClient;
 import github.tools.client.QueryParams;
+import github.tools.responseObjects.GetRepoFileResponse;
 import github.tools.responseObjects.ListBranchesInRepoResponse;
 import github.tools.responseObjects.ListReposResponse;
 import github.tools.responseObjects.RepoFileContent;
@@ -33,6 +34,10 @@ public class Main {
     public static JButton OpenFile;
     public static String Owner;
     public static String RepoN;
+    public static String Branch;
+    public static RepoFileContent ClassInfo;
+    public static ArrayList<RepoFileContent> classes;
+    public static GetRepoFileResponse FileResponce;
     public Main(){
 
         OpenFile = new JButton("Open Selected File");
@@ -69,7 +74,7 @@ public class Main {
                 String CurRepo = ((String) RepoChoice.getSelectedItem());
                 //now i have to get all of the classes for the repo
                 if(CurRepo.split("/").length>1) {
-                    System.out.println(CurRepo.split("/").length);
+                    //System.out.println(CurRepo.split("/").length);
                     QueryParams qry = new QueryParams();
                     qry.addParam("type","owner");
                     Owner = CurRepo.split("/")[0];
@@ -95,14 +100,16 @@ public class Main {
 
             @Override
             public void actionPerformed(ActionEvent e) {// this is going to be the call to allow me to get the classes in that branch
-                ArrayList<RepoFileContent> classes = new ArrayList<>();
+                 classes = new ArrayList<>();
                 if(BranchChoice.getSelectedItem()!= null){
+                    Branch = (String)BranchChoice.getSelectedItem();
                     classes = Client.getAllFilesInRepo(Owner,RepoN,(String)BranchChoice.getSelectedItem());
                     String[] classNames = new String[classes.size()];
                     int counter = 0;
                     for(RepoFileContent RFC :classes){
                         classNames[counter++] = RFC.getFileName();
                     }
+
 
 
 
@@ -124,12 +131,36 @@ public class Main {
         OpenFile.addActionListener(e-> {
             if(LoggedIn == true) {
                 JFrame ED = new JFrame("Edit");
+                String FilePath = "";
+                String classFileName = (String) ClassChoice.getSelectedItem();
+                for(RepoFileContent c: classes){
+                    if( c.getFileName().equals(classFileName)){
+                         FilePath = c.getFilePath();
+                         FileResponce = Client.getRepoFile(Owner,RepoN,c.getFilePath(),Branch);
+                    }
+                }
 
-                JEditorPane Editer = new JEditorPane();
-                Editer.setSize(400, 500);
+                JEditorPane Editer = new JEditorPane("text",FileResponce.getText());
+
+                JScrollPane scrollPane = new JScrollPane(Editer);
+                JScrollBar bars = scrollPane.getVerticalScrollBar();
+                JMenuBar menBar = new JMenuBar();
+                JMenu Send = new JMenu("File");
+                JMenuItem SaveAndSend = new JMenuItem("Upload");
+                String finalFilePath = FilePath;
+                SaveAndSend.addActionListener(b -> {
+                        Client.updateFile(Owner,RepoN, finalFilePath,Branch,Editer.getText(),"sent through GitHub's new enchanced GUI");
+                        }
+                        );
+                menBar.add(Send);
+                Send.add(SaveAndSend);
+                ED.setJMenuBar(menBar);
+
+
+                ED.add(bars,BorderLayout.EAST);
+                ED.add(scrollPane,BorderLayout.CENTER);
                 ED.setSize(600, 700);
-                ED.add(Editer);
-                ED.setLayout(null);
+                ED.add(Editer,BorderLayout.CENTER);
                 ED.setVisible(true);
             }
         });
@@ -157,12 +188,6 @@ public class Main {
 
         frame.setLayout(null);
         frame.setSize(FrameX,FrameY);//setting width and height of the frame
-
-        //geting the file from
-
-
-        //full_name
-
         frame.setIconImage(IMG.getImage());
 
 
@@ -200,9 +225,9 @@ public class Main {
                 QueryParams qry = new QueryParams();
                 qry.addParam("type","owner");
                 ListReposResponse rep = Client.listRepos(new QueryParams());
-                github.tools.responseObjects.GetRepoInfoResponse res =  Client.getRepoInfo(UserNme,"GitHubEnhancement");
-                System.out.println(res.getRepoFullName());
-                setReposResponse(rep);
+                //github.tools.responseObjects.GetRepoInfoResponse res =  Client.getRepoInfo(rep.getJson().get(i).getAsJsonObject().get("full_name").getAsString(),"GitHubEnhancement");
+                //System.out.println(res.getRepoFullName());
+                //setReposResponse(rep);
                 List Repos = new List();
                 for(int i = 0 ; i < rep.getJson().size();i++) {
                     Repos.add( rep.getJson().get(i).getAsJsonObject().get("full_name").getAsString());
